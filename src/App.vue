@@ -1,10 +1,22 @@
 <script setup>
 import { ref, computed } from "vue";
 
-const base = ref(0);
-const saved = ref(0);
+const base = ref(20000);
+const saved = ref(6500);
 const target = ref(0);
-const months = ref(5);
+const months = ref(12);
+
+class DatePoint {
+  constructor(year, month) {
+    this.year = year + Math.floor(month / 12);
+    this.month = (month % 12) + 1;
+    this.day = 20;
+  }
+
+  get str() {
+    return `${this.year}-${this.month.toString().padStart(2, "0")}-${this.day}`;
+  }
+}
 </script>
 
 <template>
@@ -55,7 +67,7 @@ const months = ref(5);
         <div v-for="n in +months" :key="n" class="flex items-center gap-3">
           <span class="w-18">第 {{ n }} 月: </span>
           <span class="flex-1">{{ +base + n * +saved }}</span>
-          <span class="w-24">2025-{{ 2 + n }}-20</span>
+          <span class="w-24">{{ new DatePoint(2025, 1 + n).str }}</span>
         </div>
       </div>
       <div v-else>- 无 -</div>
